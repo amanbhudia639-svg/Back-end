@@ -20,6 +20,24 @@ async function connectDB() {
 connectDB();
 
 
+app.get('/lessons', async (req, res) => {
+  try {
+    const db = client.db("ProductList");
+    const collection = db.collection("products");
+
+    const products = await collection.find({}).toArray();
+
+    if (products.length === 0) {
+      res.status(404).json({ message: "No products found" });
+    } else {
+      res.json(products);
+    }
+
+  } catch (err) {
+    console.error("Database error:", err);
+    res.status(500).json({ message: "Database error" });
+  }
+});
 
 
 

@@ -75,6 +75,29 @@ app.post('/Order', async (req, res) => {
 
 });
 
+app.get('/lessons/search', async (req, res) => {
+    const { query } = req.query;
+
+    if (!query) {
+        return res.status(400).json({ message: "Query is required for searching." });
+    }
+
+    try {
+        const products = await collection.find({
+          $or: [
+                { pname: { $regex: query, $options: 'i' } },
+                { price: { $regex: query, $options: 'i' } },
+                { location: { $regex: query, $options: 'i' } }
+            ]
+        }).toArray();
+
+        res.status(200).json({ products });
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).json({ message: "An error occurred while fetching users." });
+    }
+});
+
 
 
 

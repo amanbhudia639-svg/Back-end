@@ -86,7 +86,6 @@ app.get('/lessons/search', async (req, res) => {
         const products = await collection.find({
           $or: [
                 { pname: { $regex: query, $options: 'i' } },
-                { price: { $regex: query, $options: 'i' } },
                 { location: { $regex: query, $options: 'i' } }
             ]
         }).toArray();

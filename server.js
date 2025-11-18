@@ -92,7 +92,7 @@ app.get('/lessons/search', async (req, res) => {
         Conditions.push({ pname: { $regex: query, $options: 'i' }});
         Conditions.push({ location: { $regex: query, $options: 'i' }});
 
-        // If query is numeric, add price search
+        //price and quantity search
         if (isNumeric) {
             Conditions.push({ price: numericQuery });
             Conditions.push({ quantity: numericQuery });
@@ -107,7 +107,7 @@ app.get('/lessons/search', async (req, res) => {
     }
 });
 
-app.post('/quantity', async(req, res) =>{
+app.put('/quantity', async(req, res) =>{
   try{
     const { pname, quantity } = req.body;
 

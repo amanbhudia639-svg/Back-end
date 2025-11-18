@@ -82,13 +82,23 @@ app.get('/lessons/search', async (req, res) => {
         return res.status(400).json({ message: "Query is required for searching." });
     }
 
+    const numericQuery = Number(query);
+    const isNumeric = !isNaN(numericQuery);
+
     try {
-        const products = await collection.find({
-          $or: [
-                { pname: { $regex: query, $options: 'i' } },
-                { location: { $regex: query, $options: 'i' } }
-            ]
-        }).toArray();
+
+        const Conditions = [];
+
+        Conditions.push({ pname: { $regex: query, $options: 'i' }});
+        Conditions.push({ location: { $regex: query, $options: 'i' }});
+
+        // If query is numeric, add price search
+        if (isNumeric) {
+            Conditions.push({ price: numericQuery });
+            Conditions.push({ quantity: numericQuery });
+        }
+
+        const products = await collection.find({$or: Conditions }).toArray();
 
         res.status(200).json({ products });
     } catch (error) {
@@ -97,9 +107,30 @@ app.get('/lessons/search', async (req, res) => {
     }
 });
 
+app.post('/quantity', async(req, res) =>{
+  try{
+    const { pname, quantity } = req.body;
+
+    const change = await collection.updateOne(
+      {pname: pname },
+      {$set: {quantity: quantity}}
+    );
+
+    if(change.matchedCount === 0 ){
+      return res.status(404).jsonp({message: "Product not found"});
+    }
+
+    res.json({message: "Quantity updated", change});
+  }catch (error){
+    console.error(error);
+    res.status(500).json({message: "Server error"});
+  }
+
+});
 
 
 
-const PORT = process.env.PORT || 5000;
+
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 

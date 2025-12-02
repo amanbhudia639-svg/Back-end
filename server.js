@@ -38,7 +38,7 @@ const db = client.db("ProductList"); // Select database
 const collection = db.collection("products"); // Select products collection inside the productlist database
 const orders = db.collection("ORDERS"); // Select ORDERS collection inside the productlist database
 
-//route is used to fetch all the products
+//route is used to fetch all the products (products collection)
 app.get('/lessons', async (req, res) => {
   try {
 
@@ -56,7 +56,7 @@ app.get('/lessons', async (req, res) => {
   }
 });
 
-//route is used to post the order to the database (ORDERS collection)
+//route is used to post the order to the database
 app.post('/Order', async (req, res) => {
   const { Name, phone, productid, pname, quantity, total} = req.body;
 
@@ -142,5 +142,5 @@ app.put('/quantity', async(req, res) =>{
 
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`)); // start 
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 

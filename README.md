@@ -15,3 +15,17 @@ cors
 express
 mongodb
 
+### GitHub Repository
+
+https://github.com/amanbhudia639-svg/FRONTEND.git
+
+https://github.com/amanbhudia639-svg/Back-end.git
+
+### GitHub Pages
+
+https://amanbhudia639-svg.github.io/FRONTEND/
+
+### Render.com 
+
+https://back-end-1-2uy7.onrender.com
+
